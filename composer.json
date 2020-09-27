@@ -1,0 +1,51 @@
+{
+    "name": "zhuzhichao/laravel-advanced-search",
+    "description": "A wonderful advanced for Laravel.",
+    "keywords": [
+        "laravel",
+        "search"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "zhuzhichao",
+            "email": "me@zhuzhichao.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.1.0",
+        "illuminate/support": "5.*|6.*|7.*|8.*"
+    },
+    "require-dev": {
+        "laravel/legacy-factories": "^1.0.4",
+        "mockery/mockery": "^1.4",
+        "orchestra/testbench": "^3.0|^4.0|^5.0|^6.0",
+        "phpunit/phpunit": "^9.3",
+        "roave/security-advisories": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Zhuzhichao\\LaravelAdvancedSearch\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "extra": {
+      "branch-alias": {
+        "dev-master": "1.0-dev"
+      },
+      "laravel": {
+          "providers": [
+              "MatrixLab\\LaravelAdvancedSearch\\AdvancedSearchServiceProvider"
+          ]
+      }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
