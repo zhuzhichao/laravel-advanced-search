@@ -39,7 +39,7 @@
       },
       "laravel": {
           "providers": [
-              "MatrixLab\\LaravelAdvancedSearch\\AdvancedSearchServiceProvider"
+              "Zhuzhichao\\LaravelAdvancedSearch\\AdvancedSearchServiceProvider"
           ]
       }
     },
