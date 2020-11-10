@@ -238,7 +238,7 @@ class ConditionsBuilder
             'le'  => '<=',
         ];
 
-        return $operatorMap[$operator] ?? '=';
+        return $operatorMap[$operator] ?? $operator ?? '=';
     }
 
 

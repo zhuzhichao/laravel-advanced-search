@@ -3,13 +3,17 @@
 namespace Tests\Utils\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Tests\Factories\CompanyFactory;
+use Tests\Factories\UserFactory;
 
 class User extends Authenticatable
 {
     use SoftDeletes;
+    use HasFactory;
 
     /**
      * @var mixed[]
@@ -49,5 +53,10 @@ class User extends Authenticatable
         $q->where('name', 'like', $key);
 
         return $q;
+    }
+
+    protected static function newFactory()
+    {
+        return new UserFactory;
     }
 }

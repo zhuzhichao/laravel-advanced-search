@@ -20,12 +20,12 @@ class ServiceProvider extends LaravelServiceProvider
      */
     public function register()
     {
-        Builder::macro('advanced', function(Builder $builder, $conditions) {
-            return (new ConditionsBuilder($builder))->attach($conditions);
+        Builder::macro('advanced', function($conditions = []) {
+            return (new ConditionsBuilder($this))->attach($conditions);
         });
 
-        Request::macro('conditions', function(Request $request, $wheres) {
-            return (new ConditionsGenerator($request, $wheres))->getRequestConditions();
+        Request::macro('conditions', function($wheres = []) {
+            return (new ConditionsGenerator($this, $wheres))->getRequestConditions();
         });
     }
 }

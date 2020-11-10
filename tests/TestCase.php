@@ -3,6 +3,7 @@
 namespace Tests;
 
 use Orchestra\Testbench\TestCase as BaseTestCase;
+use Zhuzhichao\LaravelAdvancedSearch\ServiceProvider;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -14,7 +15,9 @@ abstract class TestCase extends BaseTestCase
      */
     protected function getPackageProviders($app)
     {
-        return [];
+        return [
+            ServiceProvider::class
+        ];
     }
 
     /**
