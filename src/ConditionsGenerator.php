@@ -50,12 +50,11 @@ class ConditionsGenerator
         foreach (self::$allowParamKeys as $key) {
             if (isset($this->params[$key])) {
                 $this->customParams[$key] = $this->params[$key];
+                unset($this->params[$key]);
             }
         }
 
-        if(empty($this->customParams)) {
-            $this->customParams['wheres'] = $this->params;
-        }
+        $this->customParams['wheres'] = array_merge($this->customParams['wheres'], $this->params);
     }
 
     protected function wheres(): array
