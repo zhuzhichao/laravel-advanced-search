@@ -5,8 +5,7 @@ namespace Zhuzhichao\LaravelAdvancedSearch;
 use Closure;
 
 /**
- * Class When
- * @package Zhuzhichao\LaravelAdvancedSearch
+ * Class When.
  */
 class When
 {
@@ -23,7 +22,7 @@ class When
      */
     public function __construct($whenCondition, $param = null)
     {
-        $this->whenCondition = (bool)$whenCondition;
+        $this->whenCondition = (bool) $whenCondition;
         $this->whenValue = $param ?? $whenCondition;
         $this->successValue = new Meaningless;
         $this->failValue = new Meaningless;

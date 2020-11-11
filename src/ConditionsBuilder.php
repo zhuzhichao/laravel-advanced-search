@@ -44,10 +44,10 @@ class ConditionsBuilder
         $this->whereQuery($conditions);
 
         // Attach group by.
-         $this->attachGroupBy($conditions);
+        $this->attachGroupBy($conditions);
 
         // Attach having.
-         $this->havingQuery($conditions);
+        $this->havingQuery($conditions);
 
         // Query order by.
         $this->orderByQuery($conditions);
@@ -85,7 +85,6 @@ class ConditionsBuilder
      * @param         $conditions
      *
      * @return mixed
-     *
      */
     private function whereQuery($conditions)
     {
@@ -119,12 +118,12 @@ class ConditionsBuilder
             } elseif ($where instanceof Expression) {
                 $this->builder->whereRaw($where);
             } elseif ($where instanceof ModelScope) {
-                $method      = $where->getScopeName();
-                $className   = $where->getClassName() ?: get_class($this->builder->getModel());
-                $args        = $where->getArgs();
+                $method = $where->getScopeName();
+                $className = $where->getClassName() ?: get_class($this->builder->getModel());
+                $args = $where->getArgs();
                 $scopeMethod = 'scope'.Str::title($method);
 
-                if ($className !== get_class($this->builder->getModel()) || !method_exists($this->builder->getModel(), $scopeMethod)) {
+                if ($className !== get_class($this->builder->getModel()) || ! method_exists($this->builder->getModel(), $scopeMethod)) {
                     throw new LogicException('[laravel advanced search] '.get_class($this->builder->getModel()).' cont find '.$scopeMethod.' method.');
                 }
 
@@ -155,20 +154,20 @@ class ConditionsBuilder
             }
 
             // $item's value must be array|string|bool|int , except Closure|Expression|ModelScope above.
-            if (!is_array($item) && !is_string($item) && !is_bool($item) && !is_int($item) && !is_null($item)) {
+            if (! is_array($item) && ! is_string($item) && ! is_bool($item) && ! is_int($item) && ! is_null($item)) {
                 throw new LogicException("[laravel advanced search] conditions' key `{$key}`'s value is trouble, please check it.");
             }
 
             if (str_contains($key, '.')) { // If `$key` such as `name.like`, will parse the correct field and operator.
                 // eg: 'name.like' => 'lara' -----> 'name' => [ 'like' => 'lara']
-                $field            = explode('.', $key)[0];
+                $field = explode('.', $key)[0];
                 $operatorAndValue = [explode('.', $key)[1] => $item];
-            } elseif (!is_array($item)) {   // Default operator is equal.
+            } elseif (! is_array($item)) {   // Default operator is equal.
                 //eg: 'name' => 'tom' -----> 'name' => ['eq' => 'tom']
-                $field            = $key;
+                $field = $key;
                 $operatorAndValue = ['eq' => $item];
             } else {
-                $field            = $key;
+                $field = $key;
                 $operatorAndValue = $item;
             }
 
@@ -200,11 +199,11 @@ class ConditionsBuilder
 
         foreach ($operatorAndValue as $operator => $value) {
             if ('in' === $operator) {
-                if ((is_array($value) || $value instanceof Collection) && !empty($value)) {
+                if ((is_array($value) || $value instanceof Collection) && ! empty($value)) {
                     $builder->{"{$whereType}In"}($field, $value);
                 }
             } elseif ('not_in' === $operator) {
-                if (is_array($value) && !empty($value)) {
+                if (is_array($value) && ! empty($value)) {
                     $builder->{"{$whereType}NotIn"}($field, $value);
                 }
             } elseif ('is' === $operator) {
@@ -241,7 +240,6 @@ class ConditionsBuilder
         return $operatorMap[$operator] ?? $operator ?? '=';
     }
 
-
     /**
      * Group by query.
      *
@@ -252,7 +250,7 @@ class ConditionsBuilder
     {
         $groupBy = $conditions['groupBy'] ?? [];
 
-        if (!empty($groupBy)) {
+        if (! empty($groupBy)) {
             $this->builder->groupBy($groupBy);
         }
 
@@ -277,11 +275,11 @@ class ConditionsBuilder
                     unset($operatorAndValue['mix']);
 
                     foreach ($operatorAndValue as $operator => $value) {
-                        $having_raws[] = $field . $this->convertOperator($operator) . $value;
+                        $having_raws[] = $field.$this->convertOperator($operator).$value;
                     }
 
                     if ($having_raws) {
-                        $this->builder->havingRaw(implode(' ' . $mixType . ' ', $having_raws));
+                        $this->builder->havingRaw(implode(' '.$mixType.' ', $having_raws));
                     }
                 }
             } elseif ($having instanceof Expression) {

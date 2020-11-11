@@ -16,7 +16,7 @@ abstract class TestCase extends BaseTestCase
     protected function getPackageProviders($app)
     {
         return [
-            ServiceProvider::class
+            ServiceProvider::class,
         ];
     }
 

@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Tests\Factories\CompanyFactory;
 
-
-
 /**
  * Tests\Utils\Models\Company.
  *

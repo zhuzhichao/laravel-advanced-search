@@ -1,18 +1,25 @@
 <?php
+
 namespace Illuminate\Database\Eloquent;
+
 if (false) {
     /**
      * @method static Builder advanced($conditions = []) Laravel advanced main function
      */
-    class Model{}
+    class Model
+    {
+    }
 }
 
 namespace Illuminate\Database\Eloquent;
+
 if (false) {
     /**
      * @method Builder advanced($conditions = []) Laravel advanced main function
      */
-    class Builder{}
+    class Builder
+    {
+    }
 }
 
 namespace Zhuzhichao\LaravelAdvancedSearch;
@@ -27,7 +34,7 @@ class ServiceProvider extends LaravelServiceProvider
      */
     public function register()
     {
-        Builder::macro('advanced', function($conditions = []) {
+        Builder::macro('advanced', function ($conditions = []) {
             return (new ConditionsBuilder($this))->attach((new ConditionsGenerator($conditions))->getRequestConditions());
         });
     }

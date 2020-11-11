@@ -45,7 +45,7 @@ class WhereQueryTest extends DBTestCase
     {
         self::assertEquals(1, User::advanced([
             'wheres' => [
-                function(Builder $builder) {
+                function (Builder $builder) {
                     $builder->where('email', 'me@zhuzhichao.com');
                 },
             ],
@@ -65,7 +65,7 @@ class WhereQueryTest extends DBTestCase
     {
         self::assertEquals(1, User::advanced([
             'wheres' => [
-                new ModelScope('name', 'zhuzhichao')
+                new ModelScope('name', 'zhuzhichao'),
             ],
         ])->count());
     }
@@ -86,7 +86,7 @@ class WhereQueryTest extends DBTestCase
         self::assertEquals(1, User::advanced([
             'wheres' => [
                 'age' => [
-                    'gt' => 19
+                    'gt' => 19,
                 ],
             ],
         ])->count());
