@@ -30,7 +30,7 @@ class SimpleLikeQueryTest extends DBTestCase
     {
         self::assertEquals(2, User::advanced(['search_keyword' => 'herme'])->count());
     }
-    
+
 //    public function test_model_without_search_keyword_method()
 //    {
 //        self::assertEquals(Company::query()->count(), Company::advanced([
