@@ -27,6 +27,27 @@ class When
         } else {
             $this->whenCondition = (bool)$value;
         }
+
+        $this->successValue = new Meaningless;
+        $this->failValue = new Meaningless;
+    }
+
+    /**
+     * Factory function for Request instance.
+     *
+     * @param $key
+     * @return When
+     */
+    public static function request($key): When
+    {
+        $requestValue = request($key);
+        $when = new static($requestValue);
+
+        if ($requestValue) {
+            $when->success($requestValue);
+        }
+
+        return $when;
     }
 
     /**

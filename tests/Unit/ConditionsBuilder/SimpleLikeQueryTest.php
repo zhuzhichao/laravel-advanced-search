@@ -2,12 +2,8 @@
 
 namespace Tests\Unit\ConditionsBuilder;
 
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\DB;
-use MatrixLab\LaravelAdvancedSearch\ModelScope;
 use Tests\DBTestCase;
 use Tests\Utils\Models\Company;
-use Tests\Utils\Models\Post;
 use Tests\Utils\Models\User;
 
 class SimpleLikeQueryTest extends DBTestCase
@@ -16,29 +12,29 @@ class SimpleLikeQueryTest extends DBTestCase
     {
         parent::setUp();
         Company::factory()->make([
-            'name' => 'this name is testing for search, first name',
+            'name' => 'Apple'
         ])->save();
         Company::factory()->make([
-            'name' => 'this name is testing for search, double first name',
-        ])->save();
-        Company::factory()->make([
-            'name' => 'this name is testing for search, second name',
+            'name' => 'Mi'
         ])->save();
 
         User::factory()->make([
-
-        ]);
+            'name' => 'Guilherme Pressutto'
+        ])->save();
+        User::factory()->make([
+            'name' => 'Zhichao Zhu'
+        ])->save();
     }
 
-    public function test_without_scope()
+    public function test_model_with_search_keyword_method()
     {
-        self::assertEquals(2, Company::advanced(['wheres' => [
-            'name.like' => '%first%',
-        ]])->count());
+        self::assertEquals(1, User::advanced(['keyword' => 'herme'])->count());
     }
 
-    public function test_with_cope()
+    public function test_model_without_search_keyword_method()
     {
-
+        self::assertEquals(Company::query()->count(), Company::advanced([
+            'keyword' => 'Chou'
+        ])->count());
     }
 }

@@ -17,6 +17,7 @@ class CreateTestbenchUsersTable extends Migration
             $table->string('name')->nullable();
             $table->string('email')->nullable();
             $table->string('password')->nullable();
+            $table->unsignedTinyInteger('age')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

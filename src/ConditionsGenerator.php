@@ -3,6 +3,7 @@
 namespace Zhuzhichao\LaravelAdvancedSearch;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class ConditionsGenerator
 {
@@ -19,10 +20,10 @@ class ConditionsGenerator
     private $customParams = [];
 
     public static $allowParamKeys = [
-        'search_where',
-        'search_order',
-        'search_group',
-        'search_having',
+        'wheres',
+        'order_by',
+        'group_by',
+        'having',
     ];
     /**
      * @var array
@@ -31,19 +32,17 @@ class ConditionsGenerator
 
     /**
      * ConditionsGenerator constructor.
-     * @param Request $request
      * @param array $params
      */
-    public function __construct(Request $request, array $params = [])
+    public function __construct(array $params = [])
     {
-        $this->request = $request;
-        $this->params  = $params;
+        $this->params = $params;
         $this->parseParams();
     }
 
     public function getRequestConditions(): array
     {
-        return $this->getConditions($this->request->input())->toArray();
+        return $this->getConditions()->toArray();
     }
 
     private function parseParams(): void
@@ -55,27 +54,33 @@ class ConditionsGenerator
         }
 
         if(empty($this->customParams)) {
-            $this->customParams['search_where'] = $this->params;
+            $this->customParams['wheres'] = $this->params;
         }
     }
 
     protected function wheres(): array
     {
-        return $this->customParams['search_where'] ?? [];
+        return $this->customParams['wheres'] ?? [];
     }
 
     protected function order(): array
     {
-        return $this->customParams['search_order'] ?? [];
+        $order = $this->customParams['order_by'] ?? [];
+
+        return Arr::wrap($order);
     }
 
     protected function groupBy(): array
     {
-        return $this->customParams['search_group'] ?? [];
+        $group = $this->customParams['group_by'] ?? [];
+
+        return Arr::wrap($group);
     }
 
     protected function having(): array
     {
-        return $this->customParams['search_having'] ?? [];
+        $having = $this->customParams['having'] ?? [];
+
+        return Arr::wrap($having);
     }
 }

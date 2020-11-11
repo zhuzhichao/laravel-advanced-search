@@ -25,13 +25,6 @@ trait ConditionsGeneratorTrait
     ];
 
     /**
-     * Request input arguments.
-     *
-     * @var array
-     */
-    protected $inputArgs;
-
-    /**
      * Append conditions.
      *
      * @param $appendItems
@@ -46,18 +39,6 @@ trait ConditionsGeneratorTrait
 
         // Merge conditions to root.
         $this->conditions = array_merge($this->conditions, $appendItems);
-
-        return $this;
-    }
-
-    /**
-     * @param array $inputArgs
-     *
-     * @return static
-     */
-    public function setInputArgs(array $inputArgs)
-    {
-        $this->inputArgs = $inputArgs;
 
         return $this;
     }
@@ -83,38 +64,12 @@ trait ConditionsGeneratorTrait
     }
 
     /**
-     * Get input value after fired.
-     *
-     * @param         $requestKey
-     * @param Closure|null $fire
-     *
-     * @return array|mixed|string
-     */
-    protected function fireInput($requestKey, Closure $fire = null)
-    {
-        if (! $this->isValidInput($requestKey)) {
-            return null;
-        }
-
-        $inputArg = $this->getInputArgs($requestKey);
-
-        return $fire ? $fire($inputArg) : $inputArg;
-    }
-
-    /**
      * Get where conditions.
-     *
-     * @param $args
      *
      * @return Collection
      */
-    public function getConditions($args): Collection
+    public function getConditions(): Collection
     {
-        $this->inputArgs = $args;
-
-        // Handle input arguments.
-        $this->handleInputArgs();
-
         // Sort order by params.
         $this->handleSort();
 
@@ -130,7 +85,7 @@ trait ConditionsGeneratorTrait
         // Map where key and value, export structure for Laravel advanced search builder.
         $this->conditions['wheres'] = collect($this->conditions['wheres'])
             ->filter(function($item) {
-                return $item !== null && $item !== [];
+                return !($item instanceof Meaningless) && $item !== [];
             })
             ->mapWithKeys(function ($item, $key) {
                 return $this->generateWhereKeyValue($item, $key);
@@ -167,12 +122,12 @@ trait ConditionsGeneratorTrait
 
         // Get input value for query.
         $value = is_int($key) ?
-            $this->getInputArgs($field) :
+            When::request($field) :
             ($item instanceof Closure ? $item() : $item);
 
         // Filter invalid where condition.
         // If `is null` or `is not null` , please pass any chars except null.
-        if ($value === '' || is_null($value)) {
+        if ($value instanceof Meaningless) {
             return [];
         }
 
@@ -187,15 +142,6 @@ trait ConditionsGeneratorTrait
     protected function handleSort(): self
     {
         $sorts = [];
-        // todo: `sort` & `sorts` path can be from config.
-        if (Arr::has($this->inputArgs, 'paginator.sort')) {
-            $sorts = array_merge([$this->getInputArgs('paginator.sort')], $sorts);
-            Arr::forget($this->inputArgs, 'paginator.sort');
-        }
-        if (Arr::has($this->inputArgs, 'paginator.sorts')) {
-            $sorts = array_merge($this->getInputArgs('paginator.sorts'), $sorts);
-            Arr::forget($this->inputArgs, 'paginator.sorts');
-        }
         $sorts = collect(array_values(array_unique($sorts)))->filter();
         $sorts = collect($sorts)->merge($this->order());
         $orders = [];
@@ -287,88 +233,5 @@ trait ConditionsGeneratorTrait
         ]);
 
         return $this;
-    }
-
-    /**
-     * Handle input arguments.
-     *
-     * @return $this
-     */
-    protected function handleInputArgs(): self
-    {
-        // Handle more.
-        $moreInputs = $this->getInputArgs('more');
-        if (is_array($moreInputs) && ! empty($moreInputs)) {
-            unset($this->inputArgs['more']);
-            $this->inputArgs = array_merge($this->inputArgs, $moreInputs);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Get input arguments.
-     *
-     * @param null $key
-     * @param null $default
-     *
-     * @return array|mixed
-     */
-    public function getInputArgs($key = null, $default = null)
-    {
-        return is_null($key) ? $this->inputArgs : Arr::get($this->inputArgs, $key, $default);
-    }
-
-    /**
-     * Check the input is valid.
-     *
-     * @param $requestKey
-     *
-     * @return bool
-     */
-    protected function isValidInput($requestKey): bool
-    {
-        return Arr::has($this->inputArgs, $requestKey)
-            && Arr::get($this->inputArgs, $requestKey) !== []
-            && Arr::get($this->inputArgs, $requestKey) !== null
-            && Arr::get($this->inputArgs, $requestKey) !== '';
-    }
-
-    /**
-     * Append something to input value' tail.
-     *
-     * @param        $requestKey
-     * @param string $append
-     *
-     * @return array|mixed|string
-     */
-    protected function appendInput($requestKey, $append = '')
-    {
-        return $this->fireInput($requestKey, function ($value) use ($append) {
-            return $value.$append;
-        });
-    }
-
-    /**
-     * When `$value` equal true, execute callback.
-     *
-     * @param $value
-     * @param $callback
-     * @param $default
-     *
-     * @return mixed
-     */
-    protected function when($value, $callback, $default = null)
-    {
-        $value = is_string($value) ? trim($value) : $value;
-        if ($value !== '' && $value !== [] && ! is_null($value)) {
-            return $callback instanceof Closure ? $callback($this->inputArgs) : $callback;
-        }
-
-        if ($default) {
-            return $default instanceof Closure ? $default($this->inputArgs) : $default;
-        }
-
-        return null;
     }
 }

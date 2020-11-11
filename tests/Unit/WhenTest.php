@@ -16,7 +16,7 @@ class WhenTest extends TestCase
             return true;
         })->success($this->successString);
 
-        $this->assertEquals($this->successString, $when->result());
+        self::assertEquals($this->successString, $when->result());
     }
 
     public function test_make_closure_with_args()
@@ -25,24 +25,24 @@ class WhenTest extends TestCase
             return $arg1 && $arg2;
         }, true, false)->success($this->successString)->fail($this->failString);
 
-        $this->assertEquals($this->failString, $when->result());
-        $this->assertNotEquals($this->successString, $when->result());
+        self::assertEquals($this->failString, $when->result());
+        self::assertNotEquals($this->successString, $when->result());
     }
 
     public function test_fail()
     {
         $when = When::make(false)->success($this->successString)->fail($this->failString);
 
-        $this->assertEquals($this->failString, $when->result());
-        $this->assertNotEquals($this->successString, $when->result());
+        self::assertEquals($this->failString, $when->result());
+        self::assertNotEquals($this->successString, $when->result());
     }
 
     public function test_success()
     {
         $when = When::make(true)->success($this->successString)->fail($this->failString);
 
-        $this->assertEquals($this->successString, $when->result());
-        $this->assertNotEquals($this->failString, $when->result());
+        self::assertEquals($this->successString, $when->result());
+        self::assertNotEquals($this->failString, $when->result());
     }
 
     public function test_success_and_fail_closure()
@@ -53,8 +53,8 @@ class WhenTest extends TestCase
             return $this->failString;
         });
 
-        $this->assertEquals($this->successString, $when->result()());
-        $this->assertEquals($this->successString, $when->result(true));
+        self::assertEquals($this->successString, $when->result()());
+        self::assertEquals($this->successString, $when->result(true));
 
         $when = When::make(false)->success(function () {
             return $this->successString;
@@ -62,7 +62,7 @@ class WhenTest extends TestCase
             return $this->failString;
         });
 
-        $this->assertEquals($this->failString, $when->result()());
-        $this->assertEquals($this->failString, $when->result(true));
+        self::assertEquals($this->failString, $when->result()());
+        self::assertEquals($this->failString, $when->result(true));
     }
 }

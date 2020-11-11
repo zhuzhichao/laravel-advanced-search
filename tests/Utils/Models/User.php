@@ -7,9 +7,21 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Tests\Factories\CompanyFactory;
 use Tests\Factories\UserFactory;
 
+
+/**
+ * Tests\Utils\Models\Company.
+ *
+ * @property int                             $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|User query()
+ * @method static \Illuminate\Database\Eloquent\Builder|User searchKeyword($key)
+ */
 class User extends Authenticatable
 {
     use SoftDeletes;
@@ -43,6 +55,13 @@ class User extends Authenticatable
         return $query->whereHas('company', function (Builder $q) use ($args): void {
             $q->where('name', $args['company']);
         });
+    }
+
+    public function scopeName($query, $value)
+    {
+        $query->where('name', $value);
+
+        return $query;
     }
 
     public function scopeSearchKeyword($q, $key)

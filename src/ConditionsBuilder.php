@@ -155,7 +155,7 @@ class ConditionsBuilder
             }
 
             // $item's value must be array|string|bool|int , except Closure|Expression|ModelScope above.
-            if (!is_array($item) && !is_string($item) && !is_bool($item) && !is_int($item)) {
+            if (!is_array($item) && !is_string($item) && !is_bool($item) && !is_int($item) && !is_null($item)) {
                 throw new LogicException("[laravel advanced search] conditions' key `{$key}`'s value is trouble, please check it.");
             }
 
