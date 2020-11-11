@@ -1,7 +1,5 @@
 <div align="center">
 
-<div align="center">
-
 # Laravel Advanced Search
 
 [![Continuous Integration](https://github.com/zhuzhichao/laravel-advanced-search/workflows/PHP%20Composer/badge.svg)](https://github.com/zhuzhichao/laravel-advanced-search/actions)
