@@ -10,25 +10,6 @@ class WhenTest extends TestCase
     private $successString = 'This is success string';
     private $failString = 'This is fail string';
 
-    public function test_make_closure()
-    {
-        $when = When::make(function () {
-            return true;
-        })->success($this->successString);
-
-        self::assertEquals($this->successString, $when->result());
-    }
-
-    public function test_make_closure_with_args()
-    {
-        $when = When::make(function ($arg1, $arg2) {
-            return $arg1 && $arg2;
-        }, true, false)->success($this->successString)->fail($this->failString);
-
-        self::assertEquals($this->failString, $when->result());
-        self::assertNotEquals($this->successString, $when->result());
-    }
-
     public function test_fail()
     {
         $when = When::make(false)->success($this->successString)->fail($this->failString);
@@ -47,22 +28,20 @@ class WhenTest extends TestCase
 
     public function test_success_and_fail_closure()
     {
-        $when = When::make(true)->success(function () {
-            return $this->successString;
-        })->fail(function () {
-            return $this->failString;
+        $when = When::make('name')->success(function ($value) {
+            return $value.':success';
+        })->fail(function ($value) {
+            return $value.':fail';
         });
 
-        self::assertEquals($this->successString, $when->result()());
-        self::assertEquals($this->successString, $when->result(true));
+        self::assertEquals('name:success', $when->result());
 
-        $when = When::make(false)->success(function () {
-            return $this->successString;
-        })->fail(function () {
-            return $this->failString;
+        $when = When::make(false, 'name')->success(function ($value) {
+            return $value.':success';
+        })->fail(function ($value) {
+            return $value.':fail';
         });
 
-        self::assertEquals($this->failString, $when->result()());
-        self::assertEquals($this->failString, $when->result(true));
+        self::assertEquals('name:fail', $when->result());
     }
 }

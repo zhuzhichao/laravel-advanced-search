@@ -11,23 +11,20 @@ use Closure;
 class When
 {
     private $whenCondition;
+    private $whenValue;
     private $successValue;
     private $failValue;
 
     /**
      * When constructor.
      *
-     * @param $value
-     * @param mixed ...$args
+     * @param $whenCondition
+     * @param null $param
      */
-    public function __construct($value, ...$args)
+    public function __construct($whenCondition, $param = null)
     {
-        if ($value instanceof Closure) {
-            $this->whenCondition = (bool)$value(...$args);
-        } else {
-            $this->whenCondition = (bool)$value;
-        }
-
+        $this->whenCondition = (bool)$whenCondition;
+        $this->whenValue = $param ?? $whenCondition;
         $this->successValue = new Meaningless;
         $this->failValue = new Meaningless;
     }
@@ -90,15 +87,14 @@ class When
     /**
      * Send result.
      *
-     * @param bool $handle
      * @return mixed
      */
-    public function result($handle = false)
+    public function result()
     {
         $result = $this->whenCondition === true ? $this->successValue : $this->failValue;
 
-        if ($handle && $result instanceof Closure) {
-            return $result();
+        if ($result instanceof Closure) {
+            return $result($this->whenValue);
         }
 
         return $result;
