@@ -68,8 +68,8 @@ class ConditionsBuilder
     {
         $keyword = '';
         // todo: can be allow more keyword from config.
-        if (Arr::has($conditions, 'keyword')) {
-            $keyword = Arr::get($conditions, 'keyword', '');
+        if (Arr::has($conditions, 'search_keyword')) {
+            $keyword = Arr::get($conditions, 'search_keyword', '');
         }
 
         if ($keyword !== '' && $keyword !== null && method_exists($this->builder->getModel(), 'scopeSearchKeyword')) {

@@ -29,6 +29,7 @@ class ConditionsGenerator
         'order_by',
         'group_by',
         'having',
+        'search_keyword',
     ];
     /**
      * @var array
@@ -250,7 +251,7 @@ class ConditionsGenerator
             }
         }
 
-        $this->customParams['wheres'] = array_merge($this->customParams['wheres'], $this->params);
+        $this->customParams['wheres'] = array_merge($this->customParams['wheres'] ?? [], $this->params);
     }
 
     protected function wheres(): array
