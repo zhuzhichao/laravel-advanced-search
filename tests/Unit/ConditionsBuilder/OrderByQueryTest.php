@@ -2,13 +2,8 @@
 
 namespace Tests\Unit\ConditionsBuilder;
 
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\DB;
 use Tests\DBTestCase;
-use Tests\Utils\Models\Company;
 use Tests\Utils\Models\User;
-use Zhuzhichao\LaravelAdvancedSearch\Meaningless;
-use Zhuzhichao\LaravelAdvancedSearch\ModelScope;
 
 class OrderByQueryTest extends DBTestCase
 {
@@ -61,25 +56,25 @@ class OrderByQueryTest extends DBTestCase
         self::assertEquals(2, User::advanced([
             'order_by' => [
                 '+company_id',
-                '-age'
+                '-age',
             ],
         ])->value('id'));
         self::assertEquals(1, User::advanced([
             'order_by' => [
                 '+company_id',
-                '+age'
+                '+age',
             ],
         ])->value('id'));
         self::assertEquals(3, User::advanced([
             'order_by' => [
                 '-company_id',
-                '+age'
+                '+age',
             ],
         ])->value('id'));
         self::assertEquals(4, User::advanced([
             'order_by' => [
                 '-company_id',
-                '-age'
+                '-age',
             ],
         ])->value('id'));
     }

@@ -2,13 +2,8 @@
 
 namespace Tests\Unit\ConditionsBuilder;
 
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\DB;
 use Tests\DBTestCase;
-use Tests\Utils\Models\Company;
 use Tests\Utils\Models\User;
-use Zhuzhichao\LaravelAdvancedSearch\Meaningless;
-use Zhuzhichao\LaravelAdvancedSearch\ModelScope;
 
 class HavingQueryTest extends DBTestCase
 {
@@ -36,8 +31,8 @@ class HavingQueryTest extends DBTestCase
         self::assertEquals(1, User::advanced([
             'group_by' => 'age',
             'having' => [
-                'age_count.gt' => 1
-            ]
+                'age_count.gt' => 1,
+            ],
         ])->selectRaw('count(`age`) as `age_count`, `age`')->get()->count());
     }
 }

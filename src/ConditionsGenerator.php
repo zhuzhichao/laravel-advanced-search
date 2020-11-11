@@ -4,7 +4,6 @@ namespace Zhuzhichao\LaravelAdvancedSearch;
 
 use Closure;
 use Illuminate\Database\Query\Expression;
-use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -46,7 +45,6 @@ class ConditionsGenerator
         $this->parseParams();
     }
 
-
     /**
      * Append conditions.
      *
@@ -87,8 +85,8 @@ class ConditionsGenerator
 
         // Map where key and value, export structure for Laravel advanced search builder.
         $this->conditions['wheres'] = collect($this->conditions['wheres'])
-            ->filter(function($item) {
-                return !($item instanceof Meaningless) && $item !== [];
+            ->filter(function ($item) {
+                return ! ($item instanceof Meaningless) && $item !== [];
             })
             ->mapWithKeys(function ($item, $key) {
                 return $this->generateWhereKeyValue($item, $key);
@@ -179,11 +177,11 @@ class ConditionsGenerator
         $groupBy = $this->groupBy();
 
         // Filter groupBy params.
-        if (!is_string($groupBy) && !is_array($groupBy) && !($groupBy instanceof When) && !($groupBy instanceof Expression)) {
+        if (! is_string($groupBy) && ! is_array($groupBy) && ! ($groupBy instanceof When) && ! ($groupBy instanceof Expression)) {
             $groupBy = [];
         }
 
-        if (!is_array($groupBy)) {
+        if (! is_array($groupBy)) {
             $groupBy = [$groupBy];
         }
 
@@ -194,7 +192,7 @@ class ConditionsGenerator
                 }
 
                 return $item;
-            })->unique()->values()->all()
+            })->unique()->values()->all(),
         ]);
 
         return $this;
@@ -209,7 +207,7 @@ class ConditionsGenerator
     {
         $having = $this->having();
 
-        if (!is_array($having)) {
+        if (! is_array($having)) {
             $having = [$having];
         }
 
@@ -232,7 +230,7 @@ class ConditionsGenerator
         }
 
         $this->appendConditions([
-            'having' => $havings
+            'having' => $havings,
         ]);
 
         return $this;

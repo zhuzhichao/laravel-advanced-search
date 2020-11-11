@@ -12,17 +12,17 @@ class SimpleLikeQueryTest extends DBTestCase
     {
         parent::setUp();
         Company::factory()->make([
-            'name' => 'Apple'
+            'name' => 'Apple',
         ])->save();
         Company::factory()->make([
-            'name' => 'Mi'
+            'name' => 'Mi',
         ])->save();
 
         User::factory()->make([
-            'name' => 'Guilherme Pressutto'
+            'name' => 'Guilherme Pressutto',
         ])->save();
         User::factory()->make([
-            'name' => 'Zhichao Zhu'
+            'name' => 'Zhichao Zhu',
         ])->save();
     }
 
@@ -34,7 +34,7 @@ class SimpleLikeQueryTest extends DBTestCase
     public function test_model_without_search_keyword_method()
     {
         self::assertEquals(Company::query()->count(), Company::advanced([
-            'keyword' => 'Chou'
+            'keyword' => 'Chou',
         ])->count());
     }
 }
