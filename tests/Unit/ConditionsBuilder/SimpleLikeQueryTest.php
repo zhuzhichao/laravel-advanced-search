@@ -11,17 +11,17 @@ class SimpleLikeQueryTest extends DBTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        Company::factory()->make([
+        factory(Company::class)->make([
             'name' => 'Apple',
         ])->save();
-        Company::factory()->make([
+        factory(Company::class)->make([
             'name' => 'Mi',
         ])->save();
 
-        User::factory()->make([
+        factory(User::class)->make([
             'name' => 'Guilherme Pressutto',
         ])->save();
-        User::factory()->make([
+        factory(User::class)->make([
             'name' => 'Zhichao Zhu',
         ])->save();
     }

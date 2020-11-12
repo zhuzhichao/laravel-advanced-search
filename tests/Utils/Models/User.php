@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Tests\Factories\UserFactory;
 
 /**
  * Tests\Utils\Models\Company.
@@ -71,10 +70,5 @@ class User extends Authenticatable
         $q->where('name', 'like', $key);
 
         return $q;
-    }
-
-    protected static function newFactory()
-    {
-        return new UserFactory;
     }
 }

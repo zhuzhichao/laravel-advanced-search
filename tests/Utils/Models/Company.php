@@ -2,10 +2,8 @@
 
 namespace Tests\Utils\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Tests\Factories\CompanyFactory;
 
 /**
  * Tests\Utils\Models\Company.
@@ -21,8 +19,6 @@ use Tests\Factories\CompanyFactory;
  */
 class Company extends Model
 {
-    use HasFactory;
-
     protected $guarded = [];
 
     public function users(): HasMany
@@ -35,10 +31,5 @@ class Company extends Model
         $query->where('name', $value);
 
         return $query;
-    }
-
-    protected static function newFactory()
-    {
-        return new CompanyFactory;
     }
 }

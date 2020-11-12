@@ -15,25 +15,25 @@ class WhereQueryTest extends DBTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        Company::factory()->make([
+        factory(Company::class)->make([
             'id' => 10,
             'name' => 'Apple',
             'age' => 30,
         ])->save();
-        Company::factory()->make([
+        factory(Company::class)->make([
             'id' => 20,
             'name' => 'Mi',
             'age' => 10,
         ])->save();
 
-        User::factory()->count(10)->create();
-        User::factory()->make([
+        factory(User::class, 10)->create();
+        factory(User::class)->make([
             'name' => 'zhuzhichao',
             'email' => 'me@zhuzhichao.com',
             'age' => 18,
             'company_id' => 10,
         ])->save();
-        User::factory()->make([
+        factory(User::class)->make([
             'name' => 'Taylor Otwell',
             'email' => 'taylor@laravel.com',
             'age' => 20,

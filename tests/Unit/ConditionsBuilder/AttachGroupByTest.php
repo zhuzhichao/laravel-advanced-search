@@ -11,14 +11,14 @@ class AttachGroupByTest extends DBTestCase
     {
         parent::setUp();
 
-        User::factory()->count(10)->create();
-        User::factory()->make([
+        factory(User::class, 10)->create();
+        factory(User::class)->make([
             'name' => 'zhuzhichao',
             'email' => 'me@zhuzhichao.com',
             'age' => 18,
             'company_id' => 10,
         ])->save();
-        User::factory()->make([
+        factory(User::class)->make([
             'name' => 'Taylor Otwell',
             'email' => 'taylor@laravel.com',
             'age' => 20,

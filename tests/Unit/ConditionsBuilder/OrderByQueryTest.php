@@ -11,28 +11,28 @@ class OrderByQueryTest extends DBTestCase
     {
         parent::setUp();
 
-        User::factory()->make([
+        factory(User::class)->make([
             'id' => 1,
             'name' => 'zhuzhichao',
             'email' => 'me@zhuzhichao.com',
             'age' => 18,
             'company_id' => 10,
         ])->save();
-        User::factory()->make([
+        factory(User::class)->make([
             'id' => 2,
             'name' => 'jack',
             'email' => 'jack@lavale.com',
             'age' => 19,
             'company_id' => 10,
         ])->save();
-        User::factory()->make([
+        factory(User::class)->make([
             'id' => 3,
             'name' => 'Taylor Otwell',
             'email' => 'taylor@laravel.com',
             'age' => 20,
             'company_id' => 20,
         ])->save();
-        User::factory()->make([
+        factory(User::class)->make([
             'id' => 4,
             'name' => 'Tom',
             'email' => 'tom@laravel.com',
