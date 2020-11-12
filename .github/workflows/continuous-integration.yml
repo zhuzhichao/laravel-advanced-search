@@ -89,7 +89,11 @@ jobs:
           path: "~/.composer/cache"
           key: "php-${{ matrix.php-version }}-composer-${{ matrix.laravel-version }}"
           restore-keys: "php-${{ matrix.php-version }}-composer-${{ matrix.laravel-version }}-"
-
+          
+          
+      - name: "Install dependencies with composer"
+        run: "composer require illuminate/contracts:${{ matrix.laravel-version }} --no-interaction --prefer-dist --no-interaction"
+        
       - name: "Run tests with phpunit/phpunit"
         run: "vendor/bin/phpunit --colors=always --verbose"
 
