@@ -90,6 +90,12 @@ jobs:
           key: "php-${{ matrix.php-version }}-composer-${{ matrix.laravel-version }}"
           restore-keys: "php-${{ matrix.php-version }}-composer-${{ matrix.laravel-version }}-"
           
+      - name: "Remove conflicting dependencies that are not needed here"
+        run: "composer remove --dev nunomaduro/larastan phpstan/phpstan-mockery phpbench/phpbench --no-update"
+
+      - name: "Ensure compatibility with legacy factories"
+        if: "matrix.laravel-version != '^8'"
+        run: "composer remove --dev laravel/legacy-factories --no-update"
           
       - name: "Install dependencies with composer"
         run: "composer require illuminate/contracts:${{ matrix.laravel-version }} --no-interaction --prefer-dist --no-interaction"
